@@ -1,24 +1,33 @@
+import { render } from "@testing-library/react";
 import React, { useState } from "react";
 
-function Item({ name, category }) {
-  const [isInCart, setIsInCart] = useState(false);
+class Item extends React.Component {
 
-  function handleAddToCartClick() {
-    setIsInCart((isInCart) => !isInCart);
+
+  state = {
+    isInCart: false,
+  }
+  handleAddToCartClick = () => {
+    this.setState((prevState) => ({
+      isInCart: !prevState.isInCart,
+    }))
   }
 
+ render(){
+  const { name, category } = this.props
   return (
-    <li className={isInCart ? "in-cart" : ""}>
+    <li className={this.state.isInCart ? "in-cart" : ""}>
       <span>{name}</span>
       <span className="category">{category}</span>
       <button
-        className={isInCart ? "remove" : "add"}
-        onClick={handleAddToCartClick}
+        className={this.state.isInCart ? "remove" : "add"}
+        onClick={this.handleAddToCartClick}
       >
-        {isInCart ? "Remove From" : "Add to"} Cart
+        {this.state.isInCart ? "Remove From" : "Add to"} Cart
       </button>
     </li>
   );
+}
 }
 
 export default Item;
